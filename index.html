@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Landing - Generador de Historias</title>
+</head>
+<body>
+<h1>Generador de Ideas</h1>
+
+<p>Plantilla base:</p>
+<p>
+Un/a ___ que ___ debe ___ pero ___ mientras ___ lo que pone en riesgo ___<br>
+👉 Tema ___ 👉 Mensaje ___ 👉 Género ___ 👉 Público ___ 👉 Longitud ___
+</p>
+
+<h3>Configuración</h3>
+
+<label>Nº protagonistas:
+<select id="protagonistCount">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="random">Aleatorio (1–4)</option>
+</select>
+</label><br><br>
+
+<label><input type="checkbox" id="safeMode" checked> Apto para todos</label><br>
+<label><input type="checkbox" id="romanceToggle" checked> Incluir romance</label><br><br>
+
+<label>Spice: <span id="spiceValue">0</span></label><br>
+<input type="range" id="spiceLevel" min="0" max="5" value="0" oninput="spiceValue.innerText=this.value">
+
+<br><br>
+
+<button onclick="goAuto()">Modo automático</button>
+<button onclick="goGuided()">Modo guiado</button>
+
+<script>
+function saveSettings(){
+localStorage.setItem("safeMode", document.getElementById("safeMode").checked);
+localStorage.setItem("romance", document.getElementById("romanceToggle").checked);
+localStorage.setItem("spice", document.getElementById("spiceLevel").value);
+localStorage.setItem("count", document.getElementById("protagonistCount").value);
+}
+
+function goAuto(){
+saveSettings();
+window.location = "auto.html";
+}
+
+function goGuided(){
+saveSettings();
+window.location = "guided.html";
+}
+</script>
+
+</body>
+</html>

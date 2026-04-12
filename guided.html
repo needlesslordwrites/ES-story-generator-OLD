@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Guiado</title>
+</head>
+<body>
+
+<h2>Modo guiado</h2>
+<div id="box"></div>
+
+<button onclick="window.location='index.html'">Volver</button>
+
+<script>
+const steps = [
+["héroe","detective","estudiante"],
+["miedo","culpa","soledad"],
+["salvar el mundo","descubrir secreto"],
+["todo se complica","enemigo aparece"]
+];
+
+let step=0, answers=[];
+
+function next(){
+if(step>=steps.length){
+document.getElementById("box").innerHTML = `
+Resultado:<br>
+Un/a ${answers[0]} que ${answers[1]} debe ${answers[2]} pero ${answers[3]}
+`;
+return;
+}
+
+let opts = steps[step];
+let html = "<h3>Elige:</h3>";
+opts.forEach(o=>{
+html+=`<div onclick="choose('${o}')">${o}</div>`;
+});
+document.getElementById("box").innerHTML=html;
+}
+
+function choose(v){
+answers.push(v);
+step++;
+next();
+}
+
+next();
+</script>
+
+</body>
+</html>

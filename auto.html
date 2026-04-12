@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Auto</title>
+</head>
+<body>
+
+<h2>Modo automático</h2>
+<div id="result"></div>
+
+<button onclick="generate()">Regenerar</button>
+<button onclick="window.location='index.html'">Volver</button>
+
+<script>
+const data = {
+protagonists:["héroe","detective","estudiante"],
+wounds:["miedo","culpa","soledad"],
+goals:["salvar el mundo","encontrar la verdad"],
+conflicts:["todo se complica","alguien se opone"]
+};
+
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+
+function generate(){
+let count = localStorage.getItem("count");
+if(count==="random") count = Math.floor(Math.random()*4)+1;
+
+let prot=[], wounds=[];
+for(let i=0;i<count;i++){
+prot.push(rand(data.protagonists));
+wounds.push(rand(data.wounds));
+}
+
+document.getElementById("result").innerHTML = `
+<b>Protagonistas:</b> ${prot.join(", ")}<br>
+<b>Heridas:</b> ${wounds.join(", ")}<br><br>
+Un/a ${prot.join(", ")} que ${wounds.join(", ")} debe ${rand(data.goals)} pero ${rand(data.conflicts)}
+`;
+}
+
+generate();
+</script>
+
+</body>
+</html>
