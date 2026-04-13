@@ -3,40 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <title>Auto</title>
+<style>
+.change{cursor:pointer;color:blue;font-style:italic}
+</style>
 </head>
 <body>
 
-<h2>Modo automático</h2>
-<div id="result"></div>
+<h2>Resultado</h2>
+<div id="final"></div>
 
-<button onclick="generate()">Regenerar</button>
-<button onclick="window.location='index.html'">Volver</button>
+<button onclick="generate()">Regenerar todo</button>
+<button onclick="location='index.html'">Volver</button>
 
 <script>
-const data = {
+const data={
 protagonists:["héroe","detective","estudiante"],
 wounds:["miedo","culpa","soledad"],
 goals:["salvar el mundo","encontrar la verdad"],
-conflicts:["todo se complica","alguien se opone"]
+conflicts:["todo se complica","alguien se opone"],
+relations:["un amigo presiona","familia en peligro"],
+cons:["pierde todo","fracasa"],
+themes:["amor","venganza"],
+messages:["redención","esperanza"],
+genres:["fantasía","thriller"],
+audience:["juvenil","adulto"],
+length:["corto","largo"]
 };
 
 function rand(a){return a[Math.floor(Math.random()*a.length)]}
 
-function generate(){
-let count = localStorage.getItem("count");
-if(count==="random") count = Math.floor(Math.random()*4)+1;
+let current={};
 
-let prot=[], wounds=[];
-for(let i=0;i<count;i++){
-prot.push(rand(data.protagonists));
-wounds.push(rand(data.wounds));
+function generate(){
+current={
+prot:rand(data.protagonists),
+wound:rand(data.wounds),
+goal:rand(data.goals),
+conflict:rand(data.conflicts),
+rel:rand(data.relations),
+cons:rand(data.cons),
+theme:rand(data.themes),
+msg:rand(data.messages),
+genre:rand(data.genres),
+aud:rand(data.audience),
+len:rand(data.length)
+};
+render();
 }
 
-document.getElementById("result").innerHTML = `
-<b>Protagonistas:</b> ${prot.join(", ")}<br>
-<b>Heridas:</b> ${wounds.join(", ")}<br><br>
-Un/a ${prot.join(", ")} que ${wounds.join(", ")} debe ${rand(data.goals)} pero ${rand(data.conflicts)}
+function change(key){
+current[key]=rand(data[key+"s"]||data[key]);
+render();
+}
+
+function render(){
+let html=`
+<p>
+Un/a ${current.prot} que ${current.wound} debe ${current.goal} pero ${current.conflict} mientras ${current.rel} lo que pone en riesgo ${current.cons}
+</p>
+<p>
+👉 Tema: ${current.theme} | 👉 Mensaje: ${current.msg} | 👉 Género: ${current.genre} | 👉 Público: ${current.aud} | 👉 Longitud: ${current.len}
+</p>
+<hr>
 `;
+
+for(let k in current){
+html+=`${k}: ${current[k]} <span class='change' onclick='change("${k}")'>Cambiar</span><br>`;
+}
+
+document.getElementById("final").innerHTML=html;
 }
 
 generate();

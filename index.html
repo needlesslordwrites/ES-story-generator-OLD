@@ -2,12 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Landing - Generador de Historias</title>
+<title>Generador de Historias</title>
+<style>
+body{font-family:Arial;max-width:900px;margin:auto;padding:20px}
+button{margin:5px;padding:10px;cursor:pointer}
+</style>
 </head>
 <body>
+
 <h1>Generador de Ideas</h1>
 
-<p>Plantilla base:</p>
+<p><b>Plantilla:</b></p>
 <p>
 Un/a ___ que ___ debe ___ pero ___ mientras ___ lo que pone en riesgo ___<br>
 👉 Tema ___ 👉 Mensaje ___ 👉 Género ___ 👉 Público ___ 👉 Longitud ___
@@ -15,42 +20,31 @@ Un/a ___ que ___ debe ___ pero ___ mientras ___ lo que pone en riesgo ___<br>
 
 <h3>Configuración</h3>
 
-<label>Nº protagonistas:
-<select id="protagonistCount">
-<option value="1">1</option>
-<option value="2">2</option>
-<option value="3">3</option>
-<option value="random">Aleatorio (1–4)</option>
-</select>
-</label><br><br>
+<label><input type="checkbox" id="safe" checked onchange="toggleSpice()"> Apto para todos</label><br>
+<label><input type="checkbox" id="romance" checked> Incluir romance</label><br>
 
-<label><input type="checkbox" id="safeMode" checked> Apto para todos</label><br>
-<label><input type="checkbox" id="romanceToggle" checked> Incluir romance</label><br><br>
+<div id="spiceBox" style="display:none">
+Spice: <span id="spiceVal">0</span><br>
+<input type="range" min="0" max="5" value="0" id="spice" oninput="spiceVal.innerText=this.value">
+</div>
 
-<label>Spice: <span id="spiceValue">0</span></label><br>
-<input type="range" id="spiceLevel" min="0" max="5" value="0" oninput="spiceValue.innerText=this.value">
+<br>
+<button onclick="go('auto.html')">Modo automático</button>
+<button onclick="go('guided.html')">Modo guiado</button>
 
-<br><br>
-
-<button onclick="goAuto()">Modo automático</button>
-<button onclick="goGuided()">Modo guiado</button>
+<h3>Contacto</h3>
+<p>needlesslordwrites@gmail.com</p>
 
 <script>
-function saveSettings(){
-localStorage.setItem("safeMode", document.getElementById("safeMode").checked);
-localStorage.setItem("romance", document.getElementById("romanceToggle").checked);
-localStorage.setItem("spice", document.getElementById("spiceLevel").value);
-localStorage.setItem("count", document.getElementById("protagonistCount").value);
+function toggleSpice(){
+document.getElementById("spiceBox").style.display = document.getElementById("safe").checked ? "none" : "block";
 }
 
-function goAuto(){
-saveSettings();
-window.location = "auto.html";
-}
-
-function goGuided(){
-saveSettings();
-window.location = "guided.html";
+function go(page){
+localStorage.setItem("safe",safe.checked);
+localStorage.setItem("romance",romance.checked);
+localStorage.setItem("spice",spice.value);
+location=page;
 }
 </script>
 

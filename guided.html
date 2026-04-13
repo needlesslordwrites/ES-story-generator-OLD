@@ -3,48 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>Guiado</title>
+<style>
+.row{display:flex;gap:10px}
+</style>
 </head>
 <body>
 
 <h2>Modo guiado</h2>
 <div id="box"></div>
 
-<button onclick="window.location='index.html'">Volver</button>
+<button onclick="location='index.html'">Volver</button>
 
 <script>
-const steps = [
-["héroe","detective","estudiante"],
-["miedo","culpa","soledad"],
-["salvar el mundo","descubrir secreto"],
-["todo se complica","enemigo aparece"]
-];
+const protagonists=["héroe","detective","estudiante"];
+const wounds=["miedo","culpa","soledad"];
 
-let step=0, answers=[];
+let state={count:1,prot:[],wounds:[]};
 
-function next(){
-if(step>=steps.length){
-document.getElementById("box").innerHTML = `
-Resultado:<br>
-Un/a ${answers[0]} que ${answers[1]} debe ${answers[2]} pero ${answers[3]}
+function step0(){
+box.innerHTML=`
+<h3>¿Cuántos protagonistas?</h3>
+<div class='row'>
+<button onclick='setCount(1)'>1</button>
+<button onclick='setCount(2)'>2</button>
+<button onclick='setCount(3)'>3</button>
+<button onclick='setCount(4)'>4</button>
+</div>`;
+}
+
+function setCount(n){
+state.count=n;
+nextProt();
+}
+
+function nextProt(){
+if(state.prot.length>=state.count) return nextWound();
+let opts=protagonists.sort(()=>0.5-Math.random()).slice(0,3);
+box.innerHTML="<h3>Escoge protagonista</h3><div class='row'>"+
+opts.map(o=>`<button onclick="pickProt('${o}')">${o}</button>`).join("")+"</div>";
+}
+
+function pickProt(v){state.prot.push(v);nextProt();}
+
+function nextWound(){
+if(state.wounds.length>=state.count) return final();
+let opts=wounds.sort(()=>0.5-Math.random()).slice(0,3);
+box.innerHTML="<h3>Escoge herida</h3><div class='row'>"+
+opts.map(o=>`<button onclick="pickW('${o}')">${o}</button>`).join("")+"</div>";
+}
+
+function pickW(v){state.wounds.push(v);nextWound();}
+
+function final(){
+box.innerHTML=`
+<h3>Resultado</h3>
+<p>Un/a ${state.prot.join(', ')} que ${state.wounds.join(', ')}</p>
 `;
-return;
 }
 
-let opts = steps[step];
-let html = "<h3>Elige:</h3>";
-opts.forEach(o=>{
-html+=`<div onclick="choose('${o}')">${o}</div>`;
-});
-document.getElementById("box").innerHTML=html;
-}
-
-function choose(v){
-answers.push(v);
-step++;
-next();
-}
-
-next();
+step0();
 </script>
 
 </body>
